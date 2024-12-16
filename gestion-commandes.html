@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Commandes</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div id="navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Gestion des Stocks</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../index.html"><i class="fas fa-home"></i> Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="produit.html"><i class="fas fa-box"></i> Produits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="commande.html"><i class="fas fa-shopping-cart"></i> Commandes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+    </div>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Gestion des Commandes</h1>
+
+        <!-- Connexion utilisateur -->
+        <div id="connexionUtilisateur" class="mb-4">
+            <button id="btnFournisseur" class="btn btn-primary">Se connecter en tant que Fournisseur</button>
+            <button id="btnClient" class="btn btn-secondary">Se connecter en tant que Client</button>
+        </div>
+
+        <div id="gestionCommandes" style="display: none;">
+            <!-- Recherche de commandes -->
+            <div class="mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par produit ou client">
+            </div>
+
+            <div class="card p-4">
+                <h4>Commandes Passées</h4>
+                <!-- Tableau des commandes -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Client</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Statut</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listCommandes">
+                        <!-- Liste des commandes (données simulées) -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $('#navbar').load('navbar.html');
+
+        // Connexion utilisateur
+        document.getElementById('btnFournisseur').addEventListener('click', function() {
+            // Afficher les commandes pour le fournisseur
+            document.getElementById('connexionUtilisateur').style.display = 'none';
+            document.getElementById('gestionCommandes').style.display = 'block';
+            // Simulation de données fournisseurs
+            loadCommandes('fournisseur');
+        });
+
+        document.getElementById('btnClient').addEventListener('click', function() {
+            // Afficher les commandes pour le client
+            document.getElementById('connexionUtilisateur').style.display = 'none';
+            document.getElementById('gestionCommandes').style.display = 'block';
+            // Simulation de données clients
+            loadCommandes('client');
+        });
+
+        // Liste des commandes simulées
+        const commandes = [
+            { id: 1, produit: 'Produit 1', quantite: 10, client: 'Client A', date: '2024-12-10', statut: 'En traitement' },
+            { id: 2, produit: 'Produit 2', quantite: 5, client: 'Client B', date: '2024-12-11', statut: 'Expédiée' },
+            { id: 3, produit: 'Produit 3', quantite: 20, client: 'Client C', date: '2024-12-12', statut: 'Livrée' }
+        ];
+
+        function loadCommandes(role) {
+            const listCommandes = document.getElementById("listCommandes");
+            listCommandes.innerHTML = ''; // Vider les anciennes commandes
+
+            commandes.forEach(commande => {
+                // Si c'est un fournisseur, permettre de changer le statut
+                let actions = '';
+                if (role === 'fournisseur') {
+                    actions = `<button class="btn btn-warning btn-sm" onclick="changerStatut(${commande.id})">Changer Statut</button>`;
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${commande.id}</td>
+                    <td>${commande.produit}</td>
+                    <td>${commande.quantite}</td>
+                    <td>${commande.client}</td>
+                    <td>${commande.date}</td>
+                    <td>${commande.statut}</td>
+                    <td>${actions}</td>
+                `;
+                listCommandes.appendChild(tr);
+            });
+        }
+
+        // Fonction pour changer le statut d'une commande
+        function changerStatut(commandeId) {
+            const commande = commandes.find(c => c.id === commandeId);
+            if (commande) {
+                const newStatut = prompt('Entrez le nouveau statut:', commande.statut);
+                if (newStatut) {
+                    commande.statut = newStatut;
+                    loadCommandes('fournisseur'); // Rafraîchir la liste
+                }
+            }
+        }
+
+        // Filtrer les commandes en fonction de la recherche
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const filteredCommandes = commandes.filter(commande => {
+                return commande.produit.toLowerCase().includes(query) || commande.client.toLowerCase().includes(query);
+            });
+            const listCommandes = document.getElementById("listCommandes");
+            listCommandes.innerHTML = ''; // Vider les anciennes commandes
+
+            filteredCommandes.forEach(commande => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${commande.id}</td>
+                    <td>${commande.produit}</td>
+                    <td>${commande.quantite}</td>
+                    <td>${commande.client}</td>
+                    <td>${commande.date}</td>
+                    <td>${commande.statut}</td>
+                    <td></td>
+                `;
+                listCommandes.appendChild(tr);
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

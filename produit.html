@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produits - Gestion des Stocks</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div id="navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Gestion des Stocks</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../index.html"><i class="fas fa-home"></i> Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="produit.html"><i class="fas fa-box"></i> Produits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="commande.html"><i class="fas fa-shopping-cart"></i> Commandes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+    </div>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Gestion des Produits</h1>
+        <button class="btn btn-success" onclick="ajouterProduit()">Ajouter un produit</button>
+
+        <!-- Tableau des produits -->
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableProduits">
+                <!-- Les produits seront affichés ici -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $('#navbar').load('navbar.html');
+        
+        function ajouterProduit() {
+            // Code pour ajouter un produit
+        }
+
+        // Fonction pour charger et afficher les produits dans le tableau
+        function chargerProduits() {
+            const produits = [
+                { id: 1, nom: 'Produit 1', description: 'Description du produit', prix: '20€' },
+                { id: 2, nom: 'Produit 2', description: 'Description du produit', prix: '30€' }
+            ];
+            let tbody = '';
+            produits.forEach(produit => {
+                tbody += `<tr>
+                            <td>${produit.id}</td>
+                            <td>${produit.nom}</td>
+                            <td>${produit.description}</td>
+                            <td>${produit.prix}</td>
+                            <td>
+                                <button class="btn btn-warning">Modifier</button>
+                                <button class="btn btn-danger">Supprimer</button>
+                            </td>
+                          </tr>`;
+            });
+            document.getElementById("tableProduits").innerHTML = tbody;
+        }
+
+        // Charger les produits au démarrage
+        chargerProduits(); </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </script>
+</body>
+</html>
