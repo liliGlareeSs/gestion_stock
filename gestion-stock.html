@@ -21,7 +21,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="../index.html"><i class="fas fa-home"></i> Accueil</a>
+                        <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="produit.html"><i class="fas fa-box"></i> Produits</a>
@@ -90,7 +90,7 @@
                 // Ajouter le produit à la liste (ici, c'est juste un ajout simulé)
                 const li = document.createElement('li');
                 li.classList.add('list-group-item');
-                li.textContent = `${produit.nom} - Quantité: ${produit.quantite} - Prix: ${produit.prix}€`;
+                li.textContent = `${produit.nom} - Quantité: ${produit.quantite} - Prix: ${produit.prix} DH `;
                 document.getElementById("listProducts").appendChild(li);
 
                 // Réinitialiser le formulaire
